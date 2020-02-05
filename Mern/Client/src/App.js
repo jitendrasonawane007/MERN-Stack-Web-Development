@@ -1,44 +1,31 @@
 /*
 Created By Jitendras On 01 - 02 - 2020
 */
-import React,{useState,useEffect} from 'react';
-import axios from 'axios';
-import {
-  Row,
-  Container,
-  Card,
-  Col,
-  Button,
-  ListGroup
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Row, Container, Card, Col, Button, ListGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AddMentor from "./AddMentor";
-let result =[];
+
 function App() {
-  const [userData,setUserData] = useState(0);
-  let count=0;
-
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
-    let getData = async () => {
-       result = await axios("http://localhost:8080/getUser");
-       setUserData({userData:result.data});
-    };
-    getData();
-  }, [count]);
+    getUserData();
+  }, []);
 
-  let DeleteUser=async(userId)=>{
-    let postParam ={};
+  const getUserData = async () => {
+    let result = await axios("http://localhost:8080/getUser");
+    setUserData({ userData: result.data });
+  };
+
+  let DeleteUser = async userId => {
+    let postParam = {};
     postParam.userId = userId;
-    await axios.post("http://localhost:8080/deletUser",postParam);
+    await axios.post("http://localhost:8080/deletUser", postParam);
     useEffect();
-  }
-  
+  };
+
   return (
     <Container>
       <Row>
@@ -95,7 +82,7 @@ function App() {
                 </Card.Text>
                 <Switch>
                   <Route exact path="/"></Route>
-                  <Route exacts path="/addMentor" component={AddMentor}></Route>
+                  <Route exact path="/addMentor" component={AddMentor}></Route>
                 </Switch>
               </Card.Body>
               {/* card-body End */}
