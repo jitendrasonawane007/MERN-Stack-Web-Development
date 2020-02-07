@@ -2,3 +2,4 @@
 Mern/Client/node_modules/
 Mern/Server/node_modules/
 Mern/Server/.env
+Mern/Server/package-lock.json
