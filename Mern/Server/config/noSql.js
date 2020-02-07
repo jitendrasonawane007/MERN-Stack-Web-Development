@@ -2,10 +2,10 @@
 Created By Jitendras On 01-02-2020
 */
 let MongoClient = require("mongodb").MongoClient;
-let dbConnectionStr = 'mongodb://localhost:27017/entityUser';
+let dbConnectionStr = process.env.MONGO_CONNECTION_URL;
 let db = {};
 /*****************************************************/
-exports.getNoSqlDB = async (dbName,collectionName) => {
+exports.getNoSqlDB = async (dbName, collectionName) => {
     try {
         let mongoClient = new MongoClient(dbConnectionStr);
         await mongoClient.connect();
