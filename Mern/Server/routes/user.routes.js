@@ -1,20 +1,27 @@
 const router = require('express').Router();
 const service = require('../services/user.service');
-
+const jwt = require('jsonwebtoken');
+const verify = require('../services/verifyJwt.service');
 router.get('/', async (req, res) => {
     try {
-        let result = service.getUserData(req.body);
-        res.send(result);
+        let token = jwt.sign({
+            'user': 'test_user'
+        }, process.env.JWT_SECRET);
+        res.header('auth', token).send(token);
     } catch (error) {
         console.error(error);
         throw error();
     }
-    // res.send('hello word')
 });
 /******************************************************************/
 // for getting data from db
-router.get('/getUser', async (req, res) => {
-
+router.get('/getUser', verify.auth, async (req, res) => {
+    try {
+        let result = await service.getUserData(req.body);
+        res.send(result);
+    } catch (error) {
+        res.status(500).send('Error while retriving the response')
+    }
 });
 /******************************************************************/
 // for assignment of task to user
